@@ -1,7 +1,4 @@
-/*/
-Because we want to minimize programming efforts for creating new games, your code
-should include predefined set of game rules that developers can choose from when
-creating their own game variations.*/
+package enums;
 
 import java.util.ArrayList;
 import java.util.List;
