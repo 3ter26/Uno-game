@@ -8,8 +8,8 @@ public class Card {
     private int number;
     private CardType cardType;
 
-    boolean ifWildCard;
-    boolean ifActionCard;
+    boolean ifWildCard = false;
+    boolean ifActionCard = false;
 
     public Card(Color color, int number, CardType cardType) {
         this.color = color;
@@ -19,15 +19,11 @@ public class Card {
         if (cardType == CardType.WILD_CARD_DRAW_FOUR ||
             cardType == CardType.WILD_CARD_CHANGE_CURRENT_COLOR){
             this.ifWildCard = true;
-            this.ifActionCard = false;
-        } else if (cardType == CardType.ACTION_CARD_REVERSE ||
-                   cardType == CardType.ACTION_CARD_SKIP ||
-                   cardType == CardType.ACTION_CARD_DRAW_TWO) {
-            this.ifWildCard = false;
+        }
+        if (cardType == CardType.ACTION_CARD_REVERSE ||
+            cardType == CardType.ACTION_CARD_SKIP ||
+            cardType == CardType.ACTION_CARD_DRAW_TWO) {
             this.ifActionCard = true;
-        } else {
-            this.ifWildCard = false;
-            this.ifActionCard = false;
         }
     }
 

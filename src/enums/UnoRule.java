@@ -51,7 +51,7 @@ public enum UnoRule {
 
 
 
-    public List<UnoRule> getBasicUnoRules() {
+    public static List<UnoRule> getBasicUnoRules() {
         List<UnoRule> basicUnoRules = new ArrayList<>();
          basicUnoRules.add(ONE_ZERO_EIGHT_CARDS);
          basicUnoRules.add(SEVEN_CARDS_DEALT);
