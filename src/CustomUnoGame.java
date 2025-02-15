@@ -86,18 +86,21 @@ public class CustomUnoGame extends Game {
             case ACTION_CARD_SKIP: {
                 System.out.println("Action card: Next player is skipped");
                 advanceToNextPlayer();
-                break; }
+                break;
+            }
             case ACTION_CARD_REVERSE: {
                 System.out.println("Action card: Reverse gaming flow");
                 direction *= -1;
-                break; }
+                break;
+            }
             case ACTION_CARD_DRAW_TWO: {
                 System.out.println("Action card: Next player draws 2 cards and skip");
                 int nextPlayerIndex = getNextPlayerIndex();
                 Player nextPlayer = players.get(nextPlayerIndex);
                 nextPlayer.drawCard(tableCards, Integer.parseInt(card.getCardType().getValue()));
                 advanceToNextPlayer();
-                break; }
+                break;
+            }
             case WILD_CARD_DRAW_FOUR: {
                 System.out.println("Action card: Next player draws 4 cards and skip");
                 int nextIndex = getNextPlayerIndex();
@@ -146,7 +149,7 @@ public class CustomUnoGame extends Game {
         after that I am supposed to execute a switch statement to check which color is choosen
         and return it for this method
          */
-            return colors[0];
+        return colors[0];
     }
 
     private int getNextPlayerIndex() {

@@ -1,7 +1,5 @@
 package enums;
 
-import jdk.jfr.Category;
-
 import java.util.*;
 import java.util.stream.Collectors;
 

@@ -12,7 +12,7 @@ public class UnoGameConfigurator {
     public static Set<UnoRule> getCustomRules() {
         Set<UnoRule> rules = new HashSet<>();
 
-        System.out.println("Welcome to the Uno Game Engine!\nWould you like to choose the Basic Uno Game? or create your own variation? (y/n)");
+        System.out.println("Welcome to the Uno Game Engine!\nIf you would like to choose the Basic Uno Game? (enter y) or create your own variation? (enter n)");
         if (scanner.nextLine().equalsIgnoreCase("y")) {
             rules.addAll(UnoRule.getBasicUnoRules());
             return rules;
@@ -21,9 +21,9 @@ public class UnoGameConfigurator {
         for (UnoRuleCategory category : UnoRuleCategory.values()) {
             List<UnoRule> categoryRules = UnoRule.getRulesByCategory(category);
             if (!categoryRules.isEmpty()) {
-                System.out.println("Choose: " + category.toString());
+                System.out.println("Choose " + category.toString() + ": ");
                 for (int i = 0; i < categoryRules.size(); i++) {
-                    System.out.println((i+1) + ") " + categoryRules.get(i).toString());
+                    System.out.println((i + 1) + "-) " + categoryRules.get(i).toString());
                 }
 
                 int choice = Integer.parseInt(scanner.nextLine()) - 1;

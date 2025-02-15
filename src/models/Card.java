@@ -47,25 +47,13 @@ public class Card {
         return cardType;
     }
 
-    public void setCardType(CardType cardType) {
-        this.cardType = cardType;
-    }
-
     public boolean isIfWildCard() {
         return ifWildCard;
     }
-
-    public void setIfWildCard(boolean ifWildCard) {
-        this.ifWildCard = ifWildCard;
-    }
-
     public boolean isIfActionCard() {
         return ifActionCard;
     }
 
-    public void setIfActionCard(boolean ifActionCard) {
-        this.ifActionCard = ifActionCard;
-    }
 
     @Override
     public String toString() {

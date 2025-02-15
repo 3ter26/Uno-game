@@ -6,7 +6,6 @@ import models.Card;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.List;
 
 public class CardsTable {
 
@@ -70,18 +69,4 @@ public class CardsTable {
         }
         return null;
     }
-
-    public int getTotalUnoCardsSize() {
-        return cards.size();
-    }
-
-    public List<Card> getRandomSevenCards() {
-        List<Card> randomCards = new ArrayList<>();
-        for (int i = 1; i <= 7; i++) {
-            randomCards.add(cards.get(i));
-        }
-        return randomCards;
-    }
-
-
 }
