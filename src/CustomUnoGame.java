@@ -5,18 +5,22 @@ import models.Card;
 import models.Player;
 
 import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Set;
+import java.util.Stack;
 
-public class BasicUnoGame extends Game {
+public class CustomUnoGame extends Game {
     private Card topCardOnDiscardPiles;
+    private Stack<Card> discardPiles;
     private int currentPlayerIndex;
     private int direction = 1;
 
 
-    public BasicUnoGame() {
-        this.rules = new ArrayList<>(UnoRule.getBasicUnoRules());
+    public CustomUnoGame(Set<UnoRule> customRules) {
+        this.rules = new HashSet<>(customRules);
         this.players = new ArrayList<>();
         this.tableCards = new CardsTable();
-
+        this.discardPiles = new Stack<>();
         initPlayers();
     }
 
@@ -29,6 +33,8 @@ public class BasicUnoGame extends Game {
     @Override
     public void play() {
         dealCards();
+        topCardOnDiscardPiles = tableCards.drawCard();
+        discardPiles.push(topCardOnDiscardPiles);
         currentPlayerIndex = 0;
 
         boolean gameWon = false;
@@ -37,7 +43,7 @@ public class BasicUnoGame extends Game {
             Player player = players.get(currentPlayerIndex);
 
             System.out.println("\n=== " + player.getName() + "'s turn ===");
-            System.out.println("Current card: " + topCardOnDiscardPiles);
+            System.out.println("Latest played Card: " + topCardOnDiscardPiles);
             System.out.println(player.getName() + "'s hand: " + player.getCardsInHand());
 
             Card cardToPlay = choosePlayableCard(player, topCardOnDiscardPiles);
@@ -46,16 +52,17 @@ public class BasicUnoGame extends Game {
                 System.out.println(player.getName() + " has no playable card and MUST draw");
                 player.drawCard(tableCards, 1);
             } else {
-                topCardOnDiscardPiles = cardToPlay;
                 System.out.println(player.getName() + " plays " + cardToPlay);
                 if (player.getCardsInHand().size() == 1) {
                     player.sayUNO();
                 }
                 applyActionWildCards(cardToPlay);
+                discardPiles.push(cardToPlay);
+                topCardOnDiscardPiles = cardToPlay;
             }
 
             if (player.getCardsInHand().isEmpty()) {
-                System.out.println("\n\n\n---------- ---------- ---------- ---------- " + player.getName() + " is WINNER ---------- ---------- ---------- ---------- ");
+                System.out.println("\n\n\n---------- ---------- ---------- ----------> " + player.getName() + " is WINNER <---------- ---------- ---------- ---------- ");
                 gameWon = true;
             } else {
                 advanceToNextPlayer();
