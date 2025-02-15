@@ -1,9 +1,9 @@
 package enums;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import jdk.jfr.Category;
+
+import java.util.*;
+import java.util.stream.Collectors;
 
 import static enums.UnoRuleCategory.*;
 
@@ -69,7 +69,52 @@ public enum UnoRule {
         return value;
     }
 
+    @Override
+    public String toString() {
+        return switch (this) {
+            case TWO_PLAYERS -> "2 players";
+            case THREE_PLAYERS -> "3 players";
+            case FOUR_PLAYERS -> "4 players";
+            case FIVE_PLAYERS -> "5 players";
+            case SIX_PLAYERS -> "6 players";
+            case SEVEN_PLAYERS -> "7 players";
+            case EIGHT_PLAYERS -> "8 players";
+            case NINE_PLAYERS -> "9 players";
+            case TEN_PLAYERS -> "10 players";
+            case ONE_ZERO_EIGHT_CARDS -> "108 cards";
+            case LTR_PLAYING_FLOW -> "Left to right playing flow";
+            case WITH_POINTS -> "The winning is by points";
+            case NO_PUNISHMENTS -> "No punishments";
+            case RTL_PLAYING_FLOW -> "Right to left playing flow";
+            case SEVEN_CARDS_DEALT -> "7 cards dealt";
+            case TWO_ONE_SIX_CARDS -> "206 cards";
+            case LAST_ONE_IS_WINNER -> "Last one is winner";
+            case PLAY_AFTER_DRAWING -> "Player is allowed to throw after drawing";
+            case TWENTY_CARDS_DEALT -> "20 cards dealt";
+            case FROM_MIDDLE_TL_FLOW -> "Middle to right playing flow";
+            case FROM_MIDDLE_TR_FLOW -> "Middle to left playing flow";
+            case CONTINUE_IF_YOU_HAVE -> "Continue throwing as long as you have playable cards";
+            case FOURTEEN_CARDS_DEALT -> "14 cards dealt";
+            case SAY_UNO_ON_LAST_CARD -> "Player should say UNO on last card";
+            case IF_DRAW_THAN_DONT_PLAY -> "Player isn't allowed to throw after drawing";
+            case LOSER_MUST_BE_PUNISHED -> "Losers must be punished";
+            case SAY_UNO_ON_LAST_TWO_CARDS -> "Player should say UNO on last two cards";
+            case ONLY_SAME_COLOR_IS_ALLOWED -> "throwing is only allowed if the player is having the same color of the topCardOnDiscardPile";
+            case NO_GATHERING_FOR_DRAW_CARDS -> "If multiple throw cards are thrown, than each are separated";
+            case CONTINUE_IF_YOU_HAVE_COUNT_2 -> "(2-times only) Continue throwing as long as you have playable cards";
+            case DRAW_ONE_CARD_IF_YOU_DONT_HAVE -> "If no playable card, than player should draw one card";
+            case DRAW_TWO_CARDS_IF_YOU_DONT_HAVE -> "If no playable card, than player should draw two cards";
+            case DUPLICATED_DRAW_CARDS_ARE_GATHERED -> "Duplicated draw cards are gathered";
+            case SAME_NUMBER_DIFFERENT_COLOR_ALLOWED -> "Same number different color allowed to be thrown";
+            default -> throw new IllegalStateException("Unexpected value: " + category);
+        };
+    }
 
+    public static List<UnoRule> getRulesByCategory(UnoRuleCategory category) {
+        return Arrays.stream(values())
+                .filter(rule -> rule.getCategory() == category)
+                .collect(Collectors.toList());
+    }
 
     public static Set<UnoRule> getBasicUnoRules() {
         Set<UnoRule> basicUnoRules = new HashSet<>();
