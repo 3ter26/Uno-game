@@ -1,13 +1,13 @@
 import controllers.CardsTable;
 import enums.Color;
 import enums.UnoRule;
+import enums.UnoRuleCategory;
 import models.Card;
 import models.Player;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.Set;
-import java.util.Stack;
+import java.util.*;
+
+import static enums.UnoRuleCategory.*;
 
 public class CustomUnoGame extends Game {
     private Card topCardOnDiscardPiles;
@@ -15,13 +15,22 @@ public class CustomUnoGame extends Game {
     private int currentPlayerIndex;
     private int direction = 1;
 
+    private Map<UnoRuleCategory, UnoRule> rulesMap = new HashMap<>();
+
 
     public CustomUnoGame(Set<UnoRule> customRules) {
         this.rules = new HashSet<>(customRules);
+        initRulesMap();
         this.players = new ArrayList<>();
         this.tableCards = new CardsTable();
         this.discardPiles = new Stack<>();
         initPlayers();
+    }
+
+    private void initRulesMap() {
+        for (UnoRule rule : rules) {
+            rulesMap.put(rule.getCategory(), rule);
+        }
     }
 
     private void initPlayers() {
@@ -46,11 +55,13 @@ public class CustomUnoGame extends Game {
             System.out.println("Latest played Card: " + topCardOnDiscardPiles);
             System.out.println(player.getName() + "'s hand: " + player.getCardsInHand());
 
-            Card cardToPlay = choosePlayableCard(player, topCardOnDiscardPiles);
+            Card cardToPlay = choosePlayableCard(player);
+
+            int numberOfCardsToDraw = Integer.parseInt(getRuleOfType(DRAW_CARDS).getValue());
 
             if (cardToPlay == null) {
                 System.out.println(player.getName() + " has no playable card and MUST draw");
-                player.drawCard(tableCards, UnoRule.getDrawCardsChosenRule(rules));
+                player.drawCard(tableCards, numberOfCardsToDraw);
             } else {
                 System.out.println(player.getName() + " plays " + cardToPlay);
                 if (player.getCardsInHand().size() == 1) {
@@ -102,7 +113,9 @@ public class CustomUnoGame extends Game {
         currentPlayerIndex = getNextPlayerIndex();
     }
 
-    private Card choosePlayableCard(Player player, Card onTopCard) {
+    private Card choosePlayableCard(Player player) {
+        Card onTopCard = !discardPiles.isEmpty() ? discardPiles.pop() : topCardOnDiscardPiles;
+
         for (Card card : player.getCardsInHand()) {
             if (card.isIfWildCard()) {
                 player.removeCardFromHand(card);
@@ -138,23 +151,30 @@ public class CustomUnoGame extends Game {
 
     private int getNextPlayerIndex() {
         int next = currentPlayerIndex + direction;
+        int playersSize = Integer.parseInt(getRuleOfType(NUMBER_OF_PLAYERS).getValue());
+
         if (next < 0) {
-            next = players.size() - 1;
-        } else if (next >= players.size()) {
+            next = playersSize - 1;
+        } else if (next >= playersSize) {
             next = 0;
         }
         return next;
     }
 
-
     @Override
     public void dealCards() {
+        int cardsDealt = Integer.parseInt(getRuleOfType(CARDS_DEALT).getValue());
+
         for (Player player : players) {
-            for (int i = 0; i < UnoRule.getCardsDealtChosenRule(rules); i++) {
+            for (int i = 0; i < cardsDealt; i++) {
                 player.addCardToHand(tableCards.drawCard());
             }
         }
         System.out.println("JUST FINISHED THE dealCards(), and each player is having cards of no. " + players.getFirst().getCardsInHand().size());
+    }
+
+    private UnoRule getRuleOfType(UnoRuleCategory category) {
+        return rulesMap.get(category);
     }
 
 

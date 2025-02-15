@@ -1,0 +1,19 @@
+package enums;
+
+public enum UnoRuleCategory {
+    NUMBER_OF_PLAYERS,
+    NUMBER_OF_CARDS,
+    CARDS_DEALT,
+    PLAYING_FLOW,
+    DRAW_CARDS,
+    SAYING_UNO,
+    PUNISHMENTS,
+    POINTS,
+    DRAW_CARDS_IS_GATHERED,
+    COLOR_RESTRICTION,
+    CONTINUE_IF_HAVING,
+    PLAY_IF_DRAWN
+
+
+
+}
