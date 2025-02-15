@@ -50,7 +50,7 @@ public class CustomUnoGame extends Game {
 
             if (cardToPlay == null) {
                 System.out.println(player.getName() + " has no playable card and MUST draw");
-                player.drawCard(tableCards, 1);
+                player.drawCard(tableCards, UnoRule.getDrawCardsChosenRule(rules));
             } else {
                 System.out.println(player.getName() + " plays " + cardToPlay);
                 if (player.getCardsInHand().size() == 1) {
@@ -84,14 +84,14 @@ public class CustomUnoGame extends Game {
                 System.out.println("Action card: Next player draws 2 cards and skip");
                 int nextPlayerIndex = getNextPlayerIndex();
                 Player nextPlayer = players.get(nextPlayerIndex);
-                nextPlayer.drawCard(tableCards, 2);
+                nextPlayer.drawCard(tableCards, Integer.parseInt(card.getCardType().getValue()));
                 advanceToNextPlayer();
                 break; }
             case WILD_CARD_DRAW_FOUR: {
                 System.out.println("Action card: Next player draws 4 cards and skip");
                 int nextIndex = getNextPlayerIndex();
                 Player nextPlayer = players.get(nextIndex);
-                nextPlayer.drawCard(tableCards, 4);
+                nextPlayer.drawCard(tableCards, Integer.parseInt(card.getCardType().getValue()));
                 advanceToNextPlayer();
                 break;
             }
@@ -150,7 +150,7 @@ public class CustomUnoGame extends Game {
     @Override
     public void dealCards() {
         for (Player player : players) {
-            for (int i = 0; i < 7; i++) {
+            for (int i = 0; i < UnoRule.getCardsDealtChosenRule(rules); i++) {
                 player.addCardToHand(tableCards.drawCard());
             }
         }
