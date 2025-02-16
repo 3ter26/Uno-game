@@ -1,10 +1,12 @@
+package helpers;
+
 import enums.UnoRule;
 import enums.UnoRuleCategory;
+import models.Player;
 
-import java.util.HashSet;
-import java.util.List;
-import java.util.Scanner;
-import java.util.Set;
+import java.util.*;
+
+import static enums.UnoRuleCategory.NUMBER_OF_PLAYERS;
 
 public class UnoGameConfigurator {
     private static final Scanner scanner = new Scanner(System.in);
@@ -33,5 +35,25 @@ public class UnoGameConfigurator {
             }
         }
         return rules;
+    }
+
+    public static List<Player> getPlayersBasedOn(Set<UnoRule> chosenRules) {
+        List<Player> players = new ArrayList<>();
+        UnoRule numberOfPlayersRule = chosenRules.stream()
+                .filter(rule -> rule.getCategory() == NUMBER_OF_PLAYERS)
+                .findFirst().orElse(null);
+
+        if (numberOfPlayersRule == null) {
+            System.out.println("No players count rule found! Default is 2 players");
+            numberOfPlayersRule = UnoRule.TWO_PLAYERS;
+        }
+
+        int numberOfPlayers = Integer.parseInt(numberOfPlayersRule.getValue());
+        for (int i = 1; i <= numberOfPlayers; i++) {
+            System.out.println("Enter Player " + i + "'s Name: ");
+            String playerName = scanner.nextLine();
+            players.add(new Player(playerName));
+        }
+        return players;
     }
 }

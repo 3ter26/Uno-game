@@ -2,11 +2,13 @@ import controllers.CardsTable;
 import enums.Color;
 import enums.UnoRule;
 import enums.UnoRuleCategory;
+import helpers.UnoGameConfigurator;
 import models.Card;
 import models.Player;
 
 import java.util.*;
 
+import static enums.UnoRule.TWO_ONE_SIX_CARDS;
 import static enums.UnoRuleCategory.*;
 
 public class CustomUnoGame extends Game {
@@ -15,14 +17,18 @@ public class CustomUnoGame extends Game {
     private int currentPlayerIndex;
     private int direction = 1;
 
-    private Map<UnoRuleCategory, UnoRule> rulesMap = new HashMap<>();
+    private Map<UnoRuleCategory, UnoRule> rulesMap;
 
 
     public CustomUnoGame(Set<UnoRule> customRules) {
         this.rules = new HashSet<>(customRules);
+        this. rulesMap = new HashMap<>();
         initRulesMap();
         this.players = new ArrayList<>();
         this.tableCards = new CardsTable();
+        if (customRules.contains(TWO_ONE_SIX_CARDS)) {
+            tableCards.initUnoCards();
+        }
         this.discardPiles = new Stack<>();
         initPlayers();
     }
@@ -34,9 +40,7 @@ public class CustomUnoGame extends Game {
     }
 
     private void initPlayers() {
-        players.add(new Player("Abdullah"));
-        players.add(new Player("Ali"));
-        players.add(new Player("Ahmed"));
+        this.players = UnoGameConfigurator.getPlayersBasedOn(rules);
     }
 
     @Override
@@ -86,21 +90,18 @@ public class CustomUnoGame extends Game {
             case ACTION_CARD_SKIP: {
                 System.out.println("Action card: Next player is skipped");
                 advanceToNextPlayer();
-                break;
-            }
+                break; }
             case ACTION_CARD_REVERSE: {
                 System.out.println("Action card: Reverse gaming flow");
                 direction *= -1;
-                break;
-            }
+                break; }
             case ACTION_CARD_DRAW_TWO: {
                 System.out.println("Action card: Next player draws 2 cards and skip");
                 int nextPlayerIndex = getNextPlayerIndex();
                 Player nextPlayer = players.get(nextPlayerIndex);
                 nextPlayer.drawCard(tableCards, Integer.parseInt(card.getCardType().getValue()));
                 advanceToNextPlayer();
-                break;
-            }
+                break; }
             case WILD_CARD_DRAW_FOUR: {
                 System.out.println("Action card: Next player draws 4 cards and skip");
                 int nextIndex = getNextPlayerIndex();
@@ -149,7 +150,7 @@ public class CustomUnoGame extends Game {
         after that I am supposed to execute a switch statement to check which color is choosen
         and return it for this method
          */
-        return colors[0];
+            return colors[0];
     }
 
     private int getNextPlayerIndex() {

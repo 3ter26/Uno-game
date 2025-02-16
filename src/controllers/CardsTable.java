@@ -18,7 +18,7 @@ public class CardsTable {
     }
 
 
-    private void initUnoCards() {
+    public void initUnoCards() {
         for (Color color : Color.values()) {
             cards.add(new Card(color, 0, CardType.NORMAL_CARD_ZERO));
 
@@ -40,7 +40,6 @@ public class CardsTable {
             cards.add(new Card(null, -1, CardType.WILD_CARD_DRAW_FOUR));
 
         }
-        System.out.println("Total uno cards: " + cards.size());
     }
 
     private CardType getCardType(int index) {
